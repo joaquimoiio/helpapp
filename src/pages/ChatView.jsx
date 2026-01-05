@@ -1,21 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-import { IconSend } from '../components/icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { Input, Button, Card } from '../components/base';
+import { IconSend } from '../components/base/Icons';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 export const ChatView = () => {
-  const [messages, setMessages] = useState([{ role: 'model', text: 'Olá! Sou o Vitalis AI. Pergunte sobre treinos, nutrição ou hábitos.' }]);
+  const [messages, setMessages] = useState([{
+    role: 'model',
+    text: 'Olá! Sou o Vitalis AI. Posso ajudar com dúvidas sobre treino, nutrição e hábitos saudáveis.'
+  }]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [apiKey, setApiKey] = useLocalStorage('vitalis_gemini_key', '');
-  const messagesEndRef = useRef(null);
   const [showKeyInput, setShowKeyInput] = useState(!apiKey);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const callGemini = async (message, key) => {
@@ -44,102 +44,109 @@ export const ChatView = () => {
   const handleSend = async () => {
     if (!input.trim() || !apiKey) return;
 
-    const userMsg = input;
+    const messageToSend = input;
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
+    setMessages(prev => [...prev, { role: 'user', text: messageToSend }]);
     setIsLoading(true);
 
-    const responseText = await callGemini(userMsg, apiKey);
-
+    const responseText = await callGemini(messageToSend, apiKey);
     setMessages(prev => [...prev, { role: 'model', text: responseText }]);
     setIsLoading(false);
   };
 
-  const formatText = (text) => {
-    // Simple formatting for bold and bullets
-    return text.split('\n').map((line, i) => {
-      if (line.startsWith('* ')) return <li key={i} className="ml-4 list-disc">{line.substring(2)}</li>;
-      if (line.startsWith('**')) return <strong key={i} className="block mt-2">{line.replace(/\*\*/g, '')}</strong>;
-      return <p key={i} className="mb-1">{line.replace(/\*\*/g, '')}</p>;
-    });
-  };
-
   return (
-    <div className="flex flex-col h-[calc(100vh-80px)] bg-background">
+    <div className="flex flex-col h-[calc(100vh-80px)]">
       {/* Header */}
-      <div className="p-4 border-b border-white/5 bg-card flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs">AI</div>
-          <h2 className="font-bold">Vitalis Chat</h2>
+      <div className="p-4 bg-[#1A1F29] border-b border-[#2A2F3A]">
+        <div className="flex justify-between items-center">
+          <div>
+            <h2 className="font-semibold text-white">Vitalis AI</h2>
+            <p className="text-xs text-[#6B7280]">Chat de saúde</p>
+          </div>
+          <button
+            onClick={() => setShowKeyInput(!showKeyInput)}
+            className="text-xs text-[#4F7FFF]"
+          >
+            {apiKey ? '⚙️' : 'Configurar'}
+          </button>
         </div>
-        <button onClick={() => setShowKeyInput(!showKeyInput)} className="text-xs text-primary underline">
-          {apiKey ? 'Alterar Key' : 'Configurar Key'}
-        </button>
       </div>
 
       {/* Key Input */}
       {showKeyInput && (
-        <div className="p-4 bg-card border-b border-white/5">
-          <label className="block text-xs text-text-muted mb-2">Gemini API Key</label>
+        <div className="p-4 bg-[#1A1F29] border-b border-[#2A2F3A]">
+          <label className="block text-xs text-[#A1A8B3] mb-2">API Key do Gemini</label>
+          <p className="text-xs text-[#6B7280] mb-2">
+            Obtenha em <a href="https://aistudio.google.com/app/apikey" target="_blank" className="text-[#4F7FFF]">Google AI Studio</a>
+          </p>
           <input
             type="password"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Cole sua API Key aqui..."
-            className="w-full bg-background border border-white/10 rounded-lg p-3 text-sm text-white focus:border-primary outline-none"
+            placeholder="Cole sua chave aqui"
+            className="w-full bg-[#0F1419] border border-[#2A2F3A] rounded-lg px-3 py-2 text-sm text-white mb-2"
           />
-          <button
-            onClick={() => setShowKeyInput(false)}
-            className="mt-2 w-full bg-primary/20 text-primary py-2 rounded-lg text-xs font-bold"
-          >
-            Salvar & Fechar
-          </button>
+          <Button variant="primary" fullWidth onClick={() => setShowKeyInput(false)}>
+            Salvar
+          </Button>
         </div>
       )}
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 no-scrollbar">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] rounded-2xl p-3 text-sm ${msg.role === 'user'
-                ? 'bg-primary text-white rounded-tr-none'
-                : 'bg-card text-text-muted rounded-tl-none border border-white/5'
-              }`}>
-              {formatText(msg.text)}
+            <div className={`max-w-[85%] rounded-lg p-3 text-sm ${
+              msg.role === 'user'
+                ? 'bg-[#4F7FFF] text-white'
+                : 'bg-[#1A1F29] border border-[#2A2F3A] text-[#A1A8B3]'
+            }`}>
+              <p className="whitespace-pre-wrap">{msg.text}</p>
             </div>
           </div>
         ))}
+
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-card px-4 py-3 rounded-2xl rounded-tl-none border border-white/5 flex gap-1">
-              <div className="w-2 h-2 bg-text-dim rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-text-dim rounded-full animate-bounce delay-75"></div>
-              <div className="w-2 h-2 bg-text-dim rounded-full animate-bounce delay-150"></div>
+            <div className="bg-[#1A1F29] border border-[#2A2F3A] px-4 py-3 rounded-lg">
+              <div className="flex gap-1">
+                <div className="w-2 h-2 rounded-full bg-[#4F7FFF] animate-bounce"></div>
+                <div className="w-2 h-2 rounded-full bg-[#4F7FFF] animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-2 h-2 rounded-full bg-[#4F7FFF] animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="p-4 bg-card border-t border-white/5">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            placeholder="Pergunte sobre sua saúde..."
-            className="flex-1 bg-background border border-white/10 rounded-full px-4 py-3 text-sm text-white focus:border-primary outline-none"
-          />
-          <button
-            onClick={handleSend}
-            disabled={!input || !apiKey}
-            className="bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <IconSend />
-          </button>
-        </div>
+      {/* Input */}
+      <div className="p-4 bg-[#1A1F29] border-t border-[#2A2F3A]">
+        {!apiKey ? (
+          <div className="text-center">
+            <p className="text-xs text-[#6B7280] mb-2">Configure a API Key acima</p>
+            <Button variant="primary" onClick={() => setShowKeyInput(true)}>
+              Configurar
+            </Button>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Digite sua pergunta..."
+              className="flex-1 bg-[#0F1419] border border-[#2A2F3A] rounded-lg px-3 py-2 text-sm text-white"
+            />
+            <Button
+              variant="primary"
+              onClick={handleSend}
+              disabled={!input.trim()}
+            >
+              Enviar
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

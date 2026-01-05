@@ -1,48 +1,104 @@
 export const EXERCISES_DATA = [
   {
-    category: "Cardio",
+    category: "Cardio Básico",
+    description: "Exercícios aeróbicos simples sem equipamento",
     items: [
-      "Corrida Moderada (30min)", "Caminhada Rápida (45min)", "Pular Corda (15min)",
-      "Ciclismo (45min)", "Natação (30min)", "Elíptico (30min)", "Escada (15min)"
+      {
+        name: "Polichinelos",
+        duration: "3 séries de 1 minuto",
+        description: "Exercício básico de cardio.",
+        howTo: "Pule abrindo pernas e levantando braços. Feche voltando à posição."
+      },
+      {
+        name: "Corrida no Lugar",
+        duration: "3 séries de 2 minutos",
+        description: "Corra parado elevando os joelhos.",
+        howTo: "Corra sem sair do lugar, elevando joelhos alternadamente."
+      }
     ]
   },
   {
-    category: "Musculação Pernas",
+    category: "Pernas",
+    description: "Fortalecimento das pernas sem equipamento",
     items: [
-      "Agachamento Livre (Barbell Squat) - O REI 👑", "Leg Press 45º", "Cadeira Extensora",
-      "Mesa Flexora", "Stiff / Levantamento Terra Romeno", "Afundo (Lunges)",
-      "Elevação de Panturrilha em Pé", "Elevação de Panturrilha Sentado",
-      "Agachamento Búlgaro", "Agachamento Hack"
+      {
+        name: "Agachamento",
+        duration: "4 séries de 15 repetições",
+        description: "Exercício básico para pernas e glúteos.",
+        howTo: "Pés na largura dos ombros. Desça flexionando joelhos. Suba empurrando pelos calcanhares."
+      },
+      {
+        name: "Afundo",
+        duration: "3 séries de 10 por perna",
+        description: "Trabalha pernas e equilíbrio.",
+        howTo: "Dê um passo à frente. Desça flexionando ambos joelhos. Suba e alterne."
+      },
+      {
+        name: "Ponte de Glúteos",
+        duration: "3 séries de 15 repetições",
+        description: "Fortalece glúteos e melhora circulação pélvica.",
+        howTo: "Deitado de costas, joelhos flexionados. Eleve o quadril contraindo glúteos."
+      }
     ]
   },
   {
-    category: "Musculação Superior",
+    category: "Peito e Braços",
+    description: "Exercícios de empurrão para parte superior",
     items: [
-      "Supino Reto (Barra ou Halter)", "Barra Fixa (Pull-ups)", "Desenvolvimento Militar",
-      "Remada Curvada", "Supino Inclinado", "Paralelas (Dips)",
-      "Rosca Direta", "Tríceps Testa", "Elevação Lateral"
+      {
+        name: "Flexão de Braço",
+        duration: "3 séries de 10-15 repetições",
+        description: "Exercício básico para peito, ombros e tríceps.",
+        howTo: "Mãos no chão na largura dos ombros. Desça o peito até quase tocar o chão. Suba."
+      },
+      {
+        name: "Flexão de Joelhos",
+        duration: "3 séries de 15 repetições",
+        description: "Versão mais fácil da flexão, para iniciantes.",
+        howTo: "Mesma posição da flexão, mas apoie os joelhos no chão. Execute a flexão."
+      }
     ]
   },
   {
-    category: "Core/Pélvico",
+    category: "Abdômen",
+    description: "Fortalecimento do core e abdômen",
     items: [
-      "Prancha Abdominal (Plank)", "Ponte de Glúteos (Hip Thrust)", "Abdominal Infra (Leg Raise)",
-      "Prancha Lateral", "Abdominal Supra", "Russian Twist", "Stomach Vacuum", "Bird Dog"
+      {
+        name: "Prancha Abdominal",
+        duration: "3 séries de 30 segundos",
+        description: "Exercício isométrico para core.",
+        howTo: "Apoio nos cotovelos e pontas dos pés. Corpo reto. Mantenha a posição."
+      },
+      {
+        name: "Abdominal",
+        duration: "3 séries de 15 repetições",
+        description: "Exercício básico para abdômen.",
+        howTo: "Deitado de costas, joelhos flexionados. Eleve tronco em direção aos joelhos."
+      },
+      {
+        name: "Elevação de Pernas",
+        duration: "3 séries de 12 repetições",
+        description: "Trabalha abdômen inferior.",
+        howTo: "Deitado, eleve pernas estendidas até 90 graus. Desça controlado."
+      }
     ]
   },
   {
-    category: "HIIT",
+    category: "Alongamento",
+    description: "Essencial para recuperação e flexibilidade",
     items: [
-      "Tabata: 8x (20s on / 10s off) Burpees", "Sprints: 10x (30s max / 30s leve)",
-      "Circuito: Polichinelo, Agachamento, Flexão (4 rounds)", "Cordas Navais (Battle Ropes) 10min",
-      "Box Jump (Saltos na Caixa) 3x15", "Mountain Climbers 4x1min"
-    ]
-  },
-  {
-    category: "Mobilidade",
-    items: [
-      "Alongamento de Flexores de Quadril", "Borboleta (Adutores)", "Gato-Vaca (Coluna)",
-      "Torção de Tronco Deitado", "Alongamento de Isquiotibiais", "Deep Squat Hold (Cocorinhas)"
+      {
+        name: "Alongamento de Pernas",
+        duration: "30 segundos cada lado",
+        description: "Alonga posterior da coxa.",
+        howTo: "Sentado, estenda uma perna. Incline tronco à frente."
+      },
+      {
+        name: "Alongamento de Quadril",
+        duration: "30 segundos cada lado",
+        description: "Importante para quem fica sentado.",
+        howTo: "Posição de afundo, joelho de trás no chão. Empurre quadril para frente."
+      }
     ]
   }
 ];
